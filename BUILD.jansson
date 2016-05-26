@@ -1,0 +1,31 @@
+package(default_visibility = ["//visibility:public"])
+
+genrule(
+    name = "jansson-hdrs",
+    srcs = glob([ "**/*" ]),
+    outs = [
+        "include/jansson_config.h",
+        "include/jansson.h",
+    ],
+    cmd = """
+(
+cd external/jansson
+cmake .
+make -j8
+)
+set -x
+outs=($(OUTS))
+cp "external/jansson/include/jansson_config.h" "$${outs[0]}"
+cp "external/jansson/include/jansson.h" "$${outs[1]}"
+""",
+)
+
+cc_library(
+    name = "jansson",
+    hdrs = [
+        ":jansson-hdrs",
+    ],
+    srcs = glob([ "src/*.h", "src/*.c" ]),
+    includes = [ "include" ],
+    copts = [ "-DHAVE_STDINT_H" ],
+)

@@ -1,0 +1,3 @@
+#! /bin/bash
+
+for f in $(find . -name '*.jsonnet'); do jsonnet fmt -i -n 2 ${f}; done;
