@@ -13,9 +13,11 @@ cc_library(
     hdrs = [
         "actions.h",
         "overlay.h",
+        "util.h",
     ],
     srcs = [
         "actions.c",
+        "util.c",
     ],
     deps = [
         "@jsonnet//core:libjsonnet",
